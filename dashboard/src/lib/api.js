@@ -5,9 +5,9 @@ import { getApiUrl } from '../config';
 
 export const AUTH_TOKEN_KEY = 'openshorts_auth';
 
-export const getToken = () => localStorage.getItem(AUTH_TOKEN_KEY) || '';
-export const setToken = (t) => localStorage.setItem(AUTH_TOKEN_KEY, t);
-export const clearToken = () => localStorage.removeItem(AUTH_TOKEN_KEY);
+export const getToken = () => { try { return localStorage.getItem(AUTH_TOKEN_KEY) || ''; } catch { return ''; } };
+export const setToken = (t) => { try { localStorage.setItem(AUTH_TOKEN_KEY, t); } catch { /* ignore */ } };
+export const clearToken = () => { try { localStorage.removeItem(AUTH_TOKEN_KEY); } catch { /* ignore */ } };
 
 export class QuotaError extends Error {
   constructor(detail) {

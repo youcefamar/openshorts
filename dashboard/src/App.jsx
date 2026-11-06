@@ -292,28 +292,31 @@ function App() {
   // the ephemeral local /videos/ files have been cleaned up (e.g. after a reload).
   const [durableClips, setDurableClips] = useState({});
 
-  const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_key') || '');
+  const [apiKey, setApiKey] = useState(() => { try { return localStorage.getItem('gemini_key') || ''; } catch { return ''; } });
   // Social API State - Load encrypted or plain
   const [uploadPostKey, setUploadPostKey] = useState(() => {
-    const stored = localStorage.getItem('uploadPostKey_v3');
+    let stored = null;
+    try { stored = localStorage.getItem('uploadPostKey_v3'); } catch { /* ignore */ }
     if (stored) return decrypt(stored);
     return '';
   });
   // ElevenLabs API State - Load encrypted
   const [elevenLabsKey, setElevenLabsKey] = useState(() => {
-    const stored = localStorage.getItem('elevenLabsKey_v1');
+    let stored = null;
+    try { stored = localStorage.getItem('elevenLabsKey_v1'); } catch { /* ignore */ }
     if (stored) return decrypt(stored);
     return '';
   });
 
   // fal.ai API State - Load encrypted
   const [falKey, setFalKey] = useState(() => {
-    const stored = localStorage.getItem('falKey_v1');
+    let stored = null;
+    try { stored = localStorage.getItem('falKey_v1'); } catch { /* ignore */ }
     if (stored) return decrypt(stored);
     return '';
   });
 
-  const [uploadUserId, setUploadUserId] = useState(() => localStorage.getItem('uploadUserId') || '');
+  const [uploadUserId, setUploadUserId] = useState(() => { try { return localStorage.getItem('uploadUserId') || ''; } catch { return ''; } });
   const [userProfiles, setUserProfiles] = useState([]); // List of {username, connected: []}
   // Post-generation social nudge: shown at the results peak until the user
   // either connects a network or dismisses it. Only 2.7% of cloud users who
